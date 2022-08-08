@@ -52,7 +52,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen() {
     ZoomableGrid(
-        initialColumns = 3,
         maximumColumns = 7
     )
 }
@@ -68,13 +67,17 @@ fun HomeScreen() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ZoomableGrid(
-    initialColumns: Int,
-    maximumColumns: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    initialColumns: Int = 3,
+    maximumColumns: Int = 6,
 ) {
+    var maxColumns = maximumColumns
     var columns by remember { mutableStateOf(initialColumns) }
     var scale by remember { mutableStateOf(1f) }
     val gridZoom = remember { Animatable(1f) }
+
+    if (initialColumns < 1) columns = 1
+    if (maximumColumns < 1) maxColumns = 1
 
     val coroutineScope = rememberCoroutineScope()
     val transformableState = rememberTransformableState { zoom, _, _ ->
@@ -86,7 +89,7 @@ internal fun ZoomableGrid(
             columns = if (scale.isZoomedIn) {
                 (columns - 1).coerceAtLeast(1)
             } else {
-                (columns + 1).coerceAtMost(maximumColumns)
+                (columns + 1).coerceAtMost(maxColumns)
             }
             gridZoom.animateTo(
                 targetValue = 1f,
