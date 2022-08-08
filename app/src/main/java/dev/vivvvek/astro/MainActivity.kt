@@ -26,6 +26,7 @@ package dev.vivvvek.astro
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import dev.vivvvek.astro.ui.home.HomeScreen
 import dev.vivvvek.astro.ui.theme.AstroTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AstroTheme {
+                HomeScreen()
             }
         }
     }
