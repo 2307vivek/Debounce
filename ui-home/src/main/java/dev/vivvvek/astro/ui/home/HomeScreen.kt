@@ -64,6 +64,7 @@ fun HomeScreen() {
  *  @param maximumColumns the maximum number of columns the grid can have. After which
  *  zooming in will have no effect on the number of columns.
 * */
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ZoomableGrid(
