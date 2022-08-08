@@ -56,8 +56,12 @@ fun HomeScreen() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun ZoomableGrid(modifier: Modifier = Modifier) {
-    var columns by remember { mutableStateOf(3) }
+internal fun ZoomableGrid(
+    initialColumns: Int,
+    maximumColumns: Int,
+    modifier: Modifier = Modifier
+) {
+    var columns by remember { mutableStateOf(initialColumns) }
     var scale by remember { mutableStateOf(1f) }
     val gridZoom = remember { Animatable(1f) }
 
