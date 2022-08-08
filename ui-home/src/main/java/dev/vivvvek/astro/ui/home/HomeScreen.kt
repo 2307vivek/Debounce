@@ -24,8 +24,6 @@
 package dev.vivvvek.astro.ui.home
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 
 @Composable
 fun HomeScreen() {
