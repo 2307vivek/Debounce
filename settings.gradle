@@ -16,3 +16,4 @@ rootProject.name = "Astro2"
 include ':app'
 include ':ui-home'
 include ':data-android'
+include ':domain'

@@ -11,6 +11,7 @@ plugins {
 
 plugins {
     id 'com.diffplug.spotless' version '5.7.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.10' apply false
 }
 
 subprojects {
