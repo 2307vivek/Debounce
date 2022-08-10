@@ -23,8 +23,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AstroDataSource(private val inputStream: InputStream) {
+@Singleton
+class AstroDataSource @Inject constructor(private val inputStream: InputStream) {
 
     suspend fun getImages(): Response<List<AstroImage>> {
         return withContext(Dispatchers.IO) {

@@ -19,8 +19,13 @@ import dev.vivvvek.astro.domain.AstroImage
 import dev.vivvvek.astro.domain.AstroRepository
 import dev.vivvvek.astro.domain.Response
 import dev.vivvvek.astro.domain.SortOrder
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class DefaultAstroRepository(val astroDataSource: AstroDataSource) : AstroRepository {
+@Singleton
+class DefaultAstroRepository @Inject constructor(
+    private val astroDataSource: AstroDataSource
+): AstroRepository {
 
     override suspend fun getAllImages(sortOrder: SortOrder): Response<List<AstroImage>> {
         return when (val response = astroDataSource.getImages()) {

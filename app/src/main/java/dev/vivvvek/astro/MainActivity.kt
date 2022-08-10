@@ -18,9 +18,11 @@ package dev.vivvvek.astro
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import dagger.hilt.android.AndroidEntryPoint
 import dev.vivvvek.astro.ui.home.HomeScreen
 import dev.vivvvek.astro.ui.theme.AstroTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
