@@ -15,19 +15,12 @@
  */
 package dev.vivvvek.astro.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.vivvvek.astro.domain.AstroRepository
-import dev.vivvvek.astro.domain.Response
-import dev.vivvvek.astro.domain.SortOrder
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: AstroRepository
-) : ViewModel() {
-
-}
+) : ViewModel()

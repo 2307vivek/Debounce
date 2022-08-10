@@ -25,7 +25,7 @@ import javax.inject.Singleton
 @Singleton
 class DefaultAstroRepository @Inject constructor(
     private val astroDataSource: AstroDataSource
-): AstroRepository {
+) : AstroRepository {
 
     override suspend fun getAllImages(sortOrder: SortOrder): Response<List<AstroImage>> {
         return when (val response = astroDataSource.getImages()) {
