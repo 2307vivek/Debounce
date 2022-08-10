@@ -9,9 +9,9 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
 
-class AstroDataSource() {
+class AstroDataSource(private val inputStream: InputStream) {
 
-    suspend fun getImages(inputStream: InputStream) : Response<List<AstroImage>> {
+    suspend fun getImages() : Response<List<AstroImage>> {
         return withContext(Dispatchers.IO) {
             try {
                 val jsonString = readJson(inputStream)
