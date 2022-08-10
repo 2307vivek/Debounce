@@ -32,8 +32,8 @@ class AstroDataSourceTest {
 
     @Before
     fun setup() {
-        dataSource = AstroDataSource()
         inputStream = FileInputStream(jsonFilePath)
+        dataSource = AstroDataSource(inputStream)
     }
 
     @Test
@@ -50,13 +50,13 @@ class AstroDataSourceTest {
 
     @Test
     fun `check the json file is valid return_true`() = runBlocking {
-        val response = dataSource.getImages(inputStream)
+        val response = dataSource.getImages()
         assertThat(response).isInstanceOf(Response.Success::class.java)
     }
 
     @Test
     fun `check correct model deserialization, return_true`() = runBlocking {
-        val response = dataSource.getImages(inputStream)
+        val response = dataSource.getImages()
         assertThat(response).isInstanceOf(Response.Success::class.java)
 
         when (response) {
