@@ -9,9 +9,9 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
 
-class AstroDataSource(private val inputStream: InputStream) {
+class AstroDataSource() {
 
-    suspend fun getImages() : Response<List<AstroImage>> {
+    suspend fun getImages(inputStream: InputStream) : Response<List<AstroImage>> {
         return withContext(Dispatchers.IO) {
             try {
                 val jsonString = readJson(inputStream)
@@ -24,7 +24,7 @@ class AstroDataSource(private val inputStream: InputStream) {
         }
     }
 
-    private fun readJson(inputStream: InputStream) : String {
+    fun readJson(inputStream: InputStream) : String {
         return inputStream
             .bufferedReader()
             .use { it.readText() }
