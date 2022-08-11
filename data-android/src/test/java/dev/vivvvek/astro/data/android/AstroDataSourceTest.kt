@@ -26,25 +26,22 @@ import java.io.InputStream
 class AstroDataSourceTest {
 
     private lateinit var dataSource: AstroDataSource
-    private lateinit var inputStream: InputStream
-
-    private val jsonFilePath = "../data-android/src/main/assets/data.json"
-
+    private lateinit var jsonProvider: TestJsonProvider
     @Before
     fun setup() {
-        inputStream = FileInputStream(jsonFilePath)
-        dataSource = AstroDataSource(inputStream)
+        jsonProvider = TestJsonProvider()
+        dataSource = AstroDataSource(jsonProvider)
     }
 
     @Test
-    fun `check if the json file is not null, return_true`() {
-        val jsonString = dataSource.readJson(inputStream)
+    fun `check if the json file is not null, return_true`() = runBlocking {
+        val jsonString = dataSource.readJson(jsonProvider.provideJsonInputStream("data.json"))
         assertThat(jsonString).isNotNull()
     }
 
     @Test
-    fun `check if the json file is not Empty, return_true`() {
-        val jsonString = dataSource.readJson(inputStream)
+    fun `check if the json file is not Empty, return_true`() = runBlocking {
+        val jsonString = dataSource.readJson(jsonProvider.provideJsonInputStream("data.json"))
         assertThat(jsonString).isNotEmpty()
     }
 
