@@ -15,7 +15,6 @@
  */
 package dev.vivvvek.astro.ui.home
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +37,7 @@ class HomeViewModel @Inject constructor(
     fun getAllImages(sortOrder: SortOrder) {
         viewModelScope.launch {
             _homeScreenState.value = _homeScreenState.value.copy(isLoading = true)
-            when(val res = repository.getAllImages()) {
+            when (val res = repository.getAllImages()) {
                 is Response.Success -> {
                     _homeScreenState.value = if (sortOrder == SortOrder.LATEST)
                         _homeScreenState.value.copy(

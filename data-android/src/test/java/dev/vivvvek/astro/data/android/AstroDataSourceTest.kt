@@ -20,8 +20,6 @@ import dev.vivvvek.astro.domain.Response
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import java.io.FileInputStream
-import java.io.InputStream
 
 class AstroDataSourceTest {
 

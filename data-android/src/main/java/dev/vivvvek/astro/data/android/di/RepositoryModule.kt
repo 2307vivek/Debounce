@@ -27,7 +27,6 @@ import dev.vivvvek.astro.data.android.DefaultAstroRepository
 import dev.vivvvek.astro.data.android.DefaultJsonProvider
 import dev.vivvvek.astro.data.android.JsonProvider
 import dev.vivvvek.astro.domain.AstroRepository
-import java.io.InputStream
 import javax.inject.Singleton
 
 @Module(includes = [DatasourceModule.RepositoryModule::class])
@@ -51,6 +50,6 @@ class DatasourceModule {
         @Binds
         fun provideJson(
             jsonProvider: DefaultJsonProvider
-        ) : JsonProvider
+        ): JsonProvider
     }
 }
