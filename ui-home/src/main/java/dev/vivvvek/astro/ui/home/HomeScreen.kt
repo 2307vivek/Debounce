@@ -15,18 +15,20 @@
  */
 package dev.vivvvek.astro.ui.home
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,49 +40,73 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import dev.vivvvek.astro.domain.AstroImage
 import dev.vivvvek.astro.domain.SortOrder
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val state by viewModel.homeScreenState.collectAsState()
 
-    Button(onClick = { viewModel.getAllImages(SortOrder.LATEST) }) {
-        Text(text = "dufhduihf")
-    }
-    if (state.isLoading) {
-        Text(text = "Loading")
+    LaunchedEffect(Unit) {
+        viewModel.getAllImages(SortOrder.LATEST)
     }
 
-    if (state.error == null && state.images.isNotEmpty()) {
-        ZoomableGrid(
-            maximumColumns = 7,
-            contentPadding = PaddingValues(2.dp)
-        ) {
-            items(state.images) { image ->
-                Box(
-                    modifier = Modifier
-                        .padding(2.dp)
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(Color.Gray),
-                    contentAlignment = Alignment.Center
-                ) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(image.url)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = image.title,
-                        contentScale = ContentScale.Crop,
-                        alignment = Alignment.Center
-                    )
-                }
+    Scaffold(
+        topBar = { AstroTopAppBar() }
+    ) {
+        if (state.isLoading) {
+            Text(text = "Loading")
+        }
+        if (state.error == null && state.images.isNotEmpty()) {
+            ImageGrid(
+                images = state.images,
+                modifier = Modifier.fillMaxHeight()
+            )
+        }
+        if (state.error != null) {
+            Text(text = state.error ?: "")
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ImageGrid(
+    modifier: Modifier = Modifier,
+    images: List<AstroImage>
+) {
+    ZoomableGrid(
+        maximumColumns = 7,
+        contentPadding = PaddingValues(2.dp),
+        modifier = modifier
+    ) {
+        items(images) { image ->
+            Box(
+                modifier = Modifier
+                    .padding(2.dp)
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(Color.Gray),
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(image.url)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = image.title,
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.Center
+                )
             }
         }
     }
+}
 
-    if (state.error != null) {
-        Text(text = state.error ?: "")
-    }
+@Composable
+fun AstroTopAppBar(modifier: Modifier = Modifier) {
+    TopAppBar(
+        title = { Text(text = "Astro") },
+        elevation = 4.dp
+    )
 }
