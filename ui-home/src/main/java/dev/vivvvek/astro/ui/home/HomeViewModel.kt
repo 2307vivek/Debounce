@@ -23,6 +23,7 @@ import dev.vivvvek.astro.domain.Response
 import dev.vivvvek.astro.domain.SortOrder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
