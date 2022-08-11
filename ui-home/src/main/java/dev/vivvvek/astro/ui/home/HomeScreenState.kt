@@ -15,10 +15,10 @@
  */
 package dev.vivvvek.astro.ui.home
 
-import dev.vivvvek.astro.domain.AstroImage
+import dev.vivvvek.astro.domain.Image
 
 data class HomeScreenState(
     val isLoading: Boolean = false,
-    val images: List<AstroImage> = emptyList(),
+    val images: List<Image> = emptyList(),
     val error: String? = null
 )

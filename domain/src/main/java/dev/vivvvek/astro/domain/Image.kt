@@ -15,7 +15,7 @@
  */
 package dev.vivvvek.astro.domain
 
-data class AstroImage(
+data class Image(
     val title: String,
     val copyright: String,
     val date: String,

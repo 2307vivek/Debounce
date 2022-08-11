@@ -15,7 +15,7 @@
  */
 package dev.vivvvek.astro.data.android
 
-import dev.vivvvek.astro.domain.AstroImage
+import dev.vivvvek.astro.domain.Image
 import dev.vivvvek.astro.domain.AstroRepository
 import dev.vivvvek.astro.domain.Response
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class DefaultAstroRepository @Inject constructor(
     private val astroDataSource: AstroDataSource
 ) : AstroRepository {
 
-    override suspend fun getAllImages(): Response<List<AstroImage>> {
+    override suspend fun getAllImages(): Response<List<Image>> {
         return astroDataSource.getImages()
     }
 }

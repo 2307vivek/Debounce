@@ -16,5 +16,5 @@
 package dev.vivvvek.astro.domain
 
 interface AstroRepository {
-    suspend fun getAllImages(): Response<List<AstroImage>>
+    suspend fun getAllImages(): Response<List<Image>>
 }

@@ -17,7 +17,7 @@ package dev.vivvvek.astro.data.android
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import dev.vivvvek.astro.domain.AstroImage
+import dev.vivvvek.astro.domain.Image
 import dev.vivvvek.astro.domain.Response
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -29,12 +29,12 @@ import javax.inject.Singleton
 @Singleton
 class AstroDataSource @Inject constructor(private val jsonProvider: JsonProvider) {
 
-    suspend fun getImages(): Response<List<AstroImage>> {
+    suspend fun getImages(): Response<List<Image>> {
         return withContext(Dispatchers.IO) {
             try {
                 val jsonString = readJson(jsonProvider.provideJsonInputStream("data.json"))
-                val imageType = object : TypeToken<List<AstroImage>>() {}.type
-                val images: List<AstroImage> = Gson().fromJson(jsonString, imageType)
+                val imageType = object : TypeToken<List<Image>>() {}.type
+                val images: List<Image> = Gson().fromJson(jsonString, imageType)
                 Response.Success(images)
             } catch (e: IOException) {
                 Response.Error("Something happened")
