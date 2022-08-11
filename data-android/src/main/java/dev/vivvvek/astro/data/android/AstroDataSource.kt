@@ -17,7 +17,7 @@ package dev.vivvvek.astro.data.android
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import dev.vivvvek.astro.domain.Image
+import dev.vivvvek.astro.domain.models.Image
 import dev.vivvvek.astro.domain.Response
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

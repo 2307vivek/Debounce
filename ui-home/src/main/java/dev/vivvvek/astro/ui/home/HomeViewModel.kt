@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
 
                     _homeScreenState.value = _homeScreenState.value.copy(
                         isLoading = false,
-                        images = images
+                        images = images.map { it.toAstroImage() }
                     )
                 }
                 is Response.Error -> {

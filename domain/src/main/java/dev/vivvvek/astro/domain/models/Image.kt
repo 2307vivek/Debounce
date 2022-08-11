@@ -13,11 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.vivvvek.astro.domain
+package dev.vivvvek.astro.domain.models
 
-data class Date(
-    val year: Int,
-    val monthName: String,
-    val dayOfWeek: String,
-    val day: Int
-)
+import dev.vivvvek.astro.domain.utils.DateUtils
+
+data class Image(
+    val title: String,
+    val copyright: String,
+    val date: String,
+    val explanation: String,
+    val url: String,
+    val hdUrl: String
+) {
+    fun toAstroImage() = AstroImage(
+        title = this.title,
+        copyright = this.copyright,
+        date = DateUtils().getDateFromString(this.date),
+        explanation = this.explanation,
+        url = this.url,
+        hdUrl = this.hdUrl
+    )
+}

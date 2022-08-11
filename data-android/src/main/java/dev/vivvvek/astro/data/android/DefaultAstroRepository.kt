@@ -16,7 +16,7 @@
 package dev.vivvvek.astro.data.android
 
 import dev.vivvvek.astro.domain.AstroRepository
-import dev.vivvvek.astro.domain.Image
+import dev.vivvvek.astro.domain.models.Image
 import dev.vivvvek.astro.domain.Response
 import javax.inject.Inject
 import javax.inject.Singleton

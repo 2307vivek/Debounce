@@ -15,6 +15,8 @@
  */
 package dev.vivvvek.astro.domain
 
+import dev.vivvvek.astro.domain.models.Image
+
 interface AstroRepository {
     suspend fun getAllImages(): Response<List<Image>>
 }

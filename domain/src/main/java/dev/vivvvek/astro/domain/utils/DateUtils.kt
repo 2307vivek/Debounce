@@ -15,7 +15,7 @@
  */
 package dev.vivvvek.astro.domain.utils
 
-import dev.vivvvek.astro.domain.Date
+import dev.vivvvek.astro.domain.models.Date
 import java.time.LocalDate
 import java.util.Locale
 

@@ -40,7 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.vivvvek.astro.domain.Image
+import dev.vivvvek.astro.domain.models.Image
 import dev.vivvvek.astro.domain.SortOrder
 
 @Composable
