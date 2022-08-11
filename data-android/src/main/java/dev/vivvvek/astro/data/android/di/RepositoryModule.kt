@@ -16,6 +16,7 @@
 package dev.vivvvek.astro.data.android.di
 
 import android.content.Context
+import android.content.res.AssetManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.vivvvek.astro.data.android.DefaultAstroRepository
+import dev.vivvvek.astro.data.android.DefaultJsonProvider
+import dev.vivvvek.astro.data.android.JsonProvider
 import dev.vivvvek.astro.domain.AstroRepository
 import java.io.InputStream
 import javax.inject.Singleton
@@ -33,16 +36,21 @@ class DatasourceModule {
 
     @Provides
     @Singleton
-    fun provideInputStream(@ApplicationContext context: Context): InputStream {
-        return context.assets.open("data.json")
+    fun provideAssetManager(@ApplicationContext context: Context): AssetManager {
+        return context.assets
     }
 
     @Module
     @InstallIn(SingletonComponent::class)
     interface RepositoryModule {
         @Binds
-        abstract fun provideDefaultAstroRepository(
+        fun provideDefaultAstroRepository(
             repository: DefaultAstroRepository
         ): AstroRepository
+
+        @Binds
+        fun provideJson(
+            jsonProvider: DefaultJsonProvider
+        ) : JsonProvider
     }
 }

@@ -27,12 +27,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AstroDataSource @Inject constructor(private val inputStream: InputStream) {
+class AstroDataSource @Inject constructor(private val jsonProvider: JsonProvider) {
 
     suspend fun getImages(): Response<List<AstroImage>> {
         return withContext(Dispatchers.IO) {
             try {
-                val jsonString = readJson(inputStream)
+                val jsonString = readJson(jsonProvider.provideJsonInputStream("data.json"))
                 val imageType = object : TypeToken<List<AstroImage>>() {}.type
                 val images: List<AstroImage> = Gson().fromJson(jsonString, imageType)
                 Response.Success(images)
