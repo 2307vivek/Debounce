@@ -40,8 +40,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.vivvvek.astro.domain.models.Image
 import dev.vivvvek.astro.domain.SortOrder
+import dev.vivvvek.astro.domain.models.AstroImage
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
@@ -73,7 +73,7 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
 @Composable
 fun ImageGrid(
     modifier: Modifier = Modifier,
-    images: List<Image>
+    images: List<AstroImage>
 ) {
     ZoomableGrid(
         maximumColumns = 7,
