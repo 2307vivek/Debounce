@@ -39,14 +39,13 @@ class HomeViewModel @Inject constructor(
             _homeScreenState.value = _homeScreenState.value.copy(isLoading = true)
             when (val res = repository.getAllImages()) {
                 is Response.Success -> {
-                    _homeScreenState.value = if (sortOrder == SortOrder.LATEST)
-                        _homeScreenState.value.copy(
-                            isLoading = false,
-                            images = res.data.sortedByDescending { it.date }
-                        )
-                    else _homeScreenState.value.copy(
+                    val images = if (sortOrder == SortOrder.LATEST)
+                        res.data.sortedByDescending { it.date }
+                    else res.data.sortedBy { it.date }
+
+                    _homeScreenState.value = _homeScreenState.value.copy(
                         isLoading = false,
-                        images = res.data.sortedBy { it.date }
+                        images = images
                     )
                 }
                 is Response.Error -> {
