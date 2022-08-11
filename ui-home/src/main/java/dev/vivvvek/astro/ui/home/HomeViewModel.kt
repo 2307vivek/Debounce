@@ -15,12 +15,45 @@
  */
 package dev.vivvvek.astro.ui.home
 
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.vivvvek.astro.domain.AstroRepository
+import dev.vivvvek.astro.domain.Response
+import dev.vivvvek.astro.domain.SortOrder
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: AstroRepository
-) : ViewModel()
+) : ViewModel() {
+
+    private val _homeScreenState = MutableStateFlow(HomeScreenState())
+    val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState
+
+    fun getAllImages(sortOrder: SortOrder) {
+        viewModelScope.launch {
+            _homeScreenState.value = _homeScreenState.value.copy(isLoading = true)
+            when(val res = repository.getAllImages()) {
+                is Response.Success -> {
+                    _homeScreenState.value = if (sortOrder == SortOrder.LATEST)
+                        _homeScreenState.value.copy(
+                            isLoading = false,
+                            images = res.data.sortedByDescending { it.date }
+                        )
+                    else _homeScreenState.value.copy(
+                        isLoading = false,
+                        images = res.data.sortedBy { it.date }
+                    )
+                }
+                is Response.Error -> {
+                    _homeScreenState.value = _homeScreenState.value.copy(error = res.error)
+                }
+            }
+        }
+    }
+}
