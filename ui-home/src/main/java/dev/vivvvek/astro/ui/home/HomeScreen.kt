@@ -17,13 +17,21 @@ package dev.vivvvek.astro.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.GridItemSpan
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -37,6 +45,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -52,10 +62,11 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
     }
 
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = { AstroTopAppBar() }
     ) {
         if (state.isLoading) {
-            Text(text = "Loading")
+            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
         }
         if (state.error == null && state.images.isNotEmpty()) {
             ImageGrid(
@@ -73,31 +84,34 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
 @Composable
 fun ImageGrid(
     modifier: Modifier = Modifier,
-    images: List<AstroImage>
+    images: Map<Int, List<AstroImage>>
 ) {
     ZoomableGrid(
         maximumColumns = 7,
-        contentPadding = PaddingValues(2.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp),
         modifier = modifier
     ) {
-        items(images) { image ->
-            Box(
-                modifier = Modifier
-                    .padding(2.dp)
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(Color.Gray),
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(image.url)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = image.title,
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center,
-                    modifier = Modifier.fillParentMaxSize()
+        images.forEach { (weekNumber, images) ->
+            item(span = { GridItemSpan(10) }) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(horizontal = 2.dp, vertical = 16.dp),
+                    horizontalArrangement = SpaceBetween
+                ) {
+                    Text(text = "Week $weekNumber", fontWeight = FontWeight.Bold)
+                    Text(text = images.size.toString())
+                }
+            }
+            items(images) { image ->
+                AstroGridItem(
+                    image = image,
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(Color.Gray)
                 )
             }
         }
@@ -105,9 +119,33 @@ fun ImageGrid(
 }
 
 @Composable
+fun AstroGridItem(
+    image: AstroImage,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(image.url)
+                .crossfade(true)
+                .build(),
+            contentDescription = image.title,
+            contentScale = ContentScale.Crop,
+            alignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
 fun AstroTopAppBar(modifier: Modifier = Modifier) {
     TopAppBar(
         title = { Text(text = "Astro") },
-        elevation = 4.dp
+        elevation = 2.dp,
+        backgroundColor = Color.White,
+        modifier = modifier
     )
 }
