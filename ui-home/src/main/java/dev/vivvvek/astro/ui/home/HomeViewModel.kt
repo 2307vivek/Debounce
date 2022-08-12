@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun List<AstroImage>.groupByWeek() : Map<Int, List<AstroImage>> {
+    private fun List<AstroImage>.groupByWeek(): Map<Int, List<AstroImage>> {
         val imagesGroupedByWeek = this.groupBy {
             (it.date.day / 7) + 1
         }
