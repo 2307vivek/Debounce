@@ -15,12 +15,14 @@
  */
 package dev.vivvvek.astro.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.vivvvek.astro.domain.AstroRepository
 import dev.vivvvek.astro.domain.Response
 import dev.vivvvek.astro.domain.SortOrder
+import dev.vivvvek.astro.domain.models.toAstroImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -45,7 +47,10 @@ class HomeViewModel @Inject constructor(
 
                     _homeScreenState.value = _homeScreenState.value.copy(
                         isLoading = false,
-                        images = images.map { it.toAstroImage() }
+                        images = images.map {
+                            Log.d("debuggg", it.toString())
+                            it.toAstroImage()
+                        }
                     )
                 }
                 is Response.Error -> {

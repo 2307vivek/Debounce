@@ -96,7 +96,8 @@ fun ImageGrid(
                         .build(),
                     contentDescription = image.title,
                     contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
+                    alignment = Alignment.Center,
+                    modifier = Modifier.fillParentMaxSize()
                 )
             }
         }

@@ -19,18 +19,18 @@ import dev.vivvvek.astro.domain.utils.DateUtils
 
 data class Image(
     val title: String,
-    val copyright: String,
+    val copyright: String?,
     val date: String,
     val explanation: String,
     val url: String,
-    val hdUrl: String
-) {
-    fun toAstroImage() = AstroImage(
-        title = this.title,
-        copyright = this.copyright,
-        date = DateUtils().getDateFromString(this.date),
-        explanation = this.explanation,
-        url = this.url,
-        hdUrl = this.hdUrl
-    )
-}
+    val hdurl: String
+)
+
+fun Image.toAstroImage() = AstroImage(
+    title = title,
+    copyright = copyright ?: "Unknown",
+    date = DateUtils().getDateFromString(date),
+    explanation = explanation,
+    url = url,
+    hdUrl = hdurl
+)

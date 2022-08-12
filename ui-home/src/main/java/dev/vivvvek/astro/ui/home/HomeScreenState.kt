@@ -15,9 +15,10 @@
  */
 package dev.vivvvek.astro.ui.home
 
+import androidx.compose.runtime.Immutable
 import dev.vivvvek.astro.domain.models.AstroImage
-import dev.vivvvek.astro.domain.models.Image
 
+@Immutable
 data class HomeScreenState(
     val isLoading: Boolean = false,
     val images: List<AstroImage> = emptyList(),
