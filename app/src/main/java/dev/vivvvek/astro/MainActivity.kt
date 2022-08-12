@@ -18,6 +18,9 @@ package dev.vivvvek.astro
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.vivvvek.astro.ui.home.HomeScreen
 import dev.vivvvek.astro.ui.theme.AstroTheme
@@ -26,8 +29,14 @@ import dev.vivvvek.astro.ui.theme.AstroTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             AstroTheme {
+                val systemUiController = rememberSystemUiController()
+                systemUiController.setSystemBarsColor(
+                    color = Color.Transparent,
+                    darkIcons = true
+                )
                 HomeScreen()
             }
         }

@@ -15,10 +15,11 @@
  */
 package dev.vivvvek.astro.ui.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.GridItemSpan
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
@@ -45,7 +45,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -63,56 +62,68 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { AstroTopAppBar() }
+        topBar = { AstroTopAppBar(modifier = Modifier.statusBarsPadding()) }
     ) {
-        if (state.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-        }
-        if (state.error == null && state.images.isNotEmpty()) {
-            ImageGrid(
-                images = state.images,
-                modifier = Modifier.fillMaxHeight()
-            )
-        }
-        if (state.error != null) {
-            Text(text = state.error ?: "")
+        Box(modifier = Modifier.padding(it)) {
+            if (state.isLoading) {
+                Box {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+            }
+            if (state.error == null && state.images.isNotEmpty()) {
+                ImageGrid(
+                    imagesGrouped = state.images,
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+            if (state.error != null) {
+                Text(text = state.error ?: "")
+            }
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImageGrid(
     modifier: Modifier = Modifier,
-    images: Map<Int, List<AstroImage>>
+    imagesGrouped: Map<Int, List<AstroImage>>
 ) {
     ZoomableGrid(
         maximumColumns = 7,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
         contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = modifier
-    ) {
-        images.forEach { (weekNumber, images) ->
-            item(span = { GridItemSpan(10) }) {
+        modifier = modifier,
+    ) { columns ->
+        imagesGrouped.forEach { (weekNumber, imagesByWeek) ->
+            item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .padding(horizontal = 2.dp, vertical = 16.dp),
-                    horizontalArrangement = SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = "Week $weekNumber", fontWeight = FontWeight.Bold)
-                    Text(text = images.size.toString())
+                    Text(text = imagesByWeek.size.toString())
                 }
             }
-            items(images) { image ->
-                AstroGridItem(
-                    image = image,
-                    modifier = Modifier
-                        .padding(2.dp)
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(Color.Gray)
-                )
+            items(imagesByWeek.chunked(columns)) { images ->
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    images.forEach { image ->
+                        AstroGridItem(
+                            image = image,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(2.dp)
+                                .aspectRatio(1f)
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(Color.Gray)
+                        )
+                    }
+                }
             }
         }
     }
