@@ -61,8 +61,8 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = { AstroTopAppBar(modifier = Modifier.statusBarsPadding()) }
+        modifier = Modifier.fillMaxSize().statusBarsPadding(),
+        topBar = { AstroTopAppBar() }
     ) {
         Box(modifier = Modifier.padding(it)) {
             if (state.isLoading) {
@@ -73,7 +73,8 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
             if (state.error == null && state.images.isNotEmpty()) {
                 ImageGrid(
                     imagesGrouped = state.images,
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = Modifier.fillMaxHeight(),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
                 )
             }
             if (state.error != null) {
@@ -86,12 +87,13 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
 @Composable
 fun ImageGrid(
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     imagesGrouped: Map<Int, List<AstroImage>>
 ) {
     ZoomableGrid(
         maximumColumns = 7,
         animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = contentPadding,
         modifier = modifier,
     ) { columns ->
         imagesGrouped.forEach { (weekNumber, imagesByWeek) ->

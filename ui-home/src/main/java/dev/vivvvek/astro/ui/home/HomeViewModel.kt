@@ -15,7 +15,6 @@
  */
 package dev.vivvvek.astro.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,16 +36,19 @@ class HomeViewModel @Inject constructor(
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState
 
+    var images = listOf<AstroImage>()
+
     fun getAllImages(sortOrder: SortOrder) {
         viewModelScope.launch {
             _homeScreenState.value = _homeScreenState.value.copy(isLoading = true)
             when (val res = repository.getAllImages()) {
                 is Response.Success -> {
-                    val images = if (sortOrder == SortOrder.LATEST)
+                    val sortedImages = if (sortOrder == SortOrder.LATEST)
                         res.data.sortedByDescending { it.date }
                     else res.data.sortedBy { it.date }
 
-                    val astroImages = images.map { it.toAstroImage() }
+                    val astroImages = sortedImages.map { it.toAstroImage() }
+                    images = astroImages
                     _homeScreenState.value = _homeScreenState.value.copy(
                         isLoading = false,
                         images = astroImages.groupByWeek()
@@ -62,7 +64,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun List<AstroImage>.groupByWeek() : Map<Int, List<AstroImage>> {
+    private fun List<AstroImage>.groupByWeek() : Map<Int, List<AstroImage>> {
         val imagesGroupedByWeek = this.groupBy {
             (it.date.day / 7) + 1
         }
