@@ -22,6 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.vivvvek.astro.domain.AstroRepository
 import dev.vivvvek.astro.domain.Response
 import dev.vivvvek.astro.domain.SortOrder
+import dev.vivvvek.astro.domain.models.AstroImage
 import dev.vivvvek.astro.domain.models.toAstroImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,18 +46,26 @@ class HomeViewModel @Inject constructor(
                         res.data.sortedByDescending { it.date }
                     else res.data.sortedBy { it.date }
 
+                    val astroImages = images.map { it.toAstroImage() }
                     _homeScreenState.value = _homeScreenState.value.copy(
                         isLoading = false,
-                        images = images.map {
-                            Log.d("debuggg", it.toString())
-                            it.toAstroImage()
-                        }
+                        images = astroImages.groupByWeek()
                     )
                 }
                 is Response.Error -> {
-                    _homeScreenState.value = _homeScreenState.value.copy(error = res.error)
+                    _homeScreenState.value = _homeScreenState.value.copy(
+                        error = res.error,
+                        isLoading = false
+                    )
                 }
             }
         }
+    }
+
+    fun List<AstroImage>.groupByWeek() : Map<Int, List<AstroImage>> {
+        val imagesGroupedByWeek = this.groupBy {
+            (it.date.day / 7) + 1
+        }
+        return imagesGroupedByWeek
     }
 }

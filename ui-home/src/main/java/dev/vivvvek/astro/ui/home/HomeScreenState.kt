@@ -21,6 +21,6 @@ import dev.vivvvek.astro.domain.models.AstroImage
 @Immutable
 data class HomeScreenState(
     val isLoading: Boolean = false,
-    val images: List<AstroImage> = emptyList(),
+    val images: Map<Int, List<AstroImage>> = emptyMap(),
     val error: String? = null
 )
