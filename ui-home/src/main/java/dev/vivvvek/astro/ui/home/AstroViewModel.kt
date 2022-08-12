@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class AstroViewModel @Inject constructor(
     private val repository: AstroRepository
 ) : ViewModel() {
 

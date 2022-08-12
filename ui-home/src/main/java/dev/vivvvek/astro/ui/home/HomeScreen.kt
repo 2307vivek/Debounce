@@ -68,7 +68,7 @@ import dev.vivvvek.astro.domain.models.AstroImage
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun HomeScreen(viewModel: AstroViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val state by viewModel.homeScreenState.collectAsState()
 
     var sortOrder by remember { mutableStateOf(SortOrder.LATEST) }
