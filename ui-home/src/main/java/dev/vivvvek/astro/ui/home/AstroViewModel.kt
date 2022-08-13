@@ -31,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AstroViewModel @Inject constructor(
     private val repository: AstroRepository
-) : ViewModel() {
+): ViewModel() {
 
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState
@@ -64,10 +64,14 @@ class AstroViewModel @Inject constructor(
         }
     }
 
-    private fun List<AstroImage>.groupByWeek(): Map<Int, List<AstroImage>> {
-        val imagesGroupedByWeek = this.groupBy {
-            (it.date.day / 7) + 1
-        }
-        return imagesGroupedByWeek
+    fun getIndexOfImage(id: Int) = images.indexOfFirst {
+        it.id == id
     }
+}
+
+private fun List<AstroImage>.groupByWeek(): Map<Int, List<AstroImage>> {
+    val imagesGroupedByWeek = this.groupBy {
+        (it.date.day / 7) + 1
+    }
+    return imagesGroupedByWeek
 }
