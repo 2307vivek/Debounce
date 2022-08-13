@@ -95,7 +95,7 @@ fun HomeScreen(
         },
     ) {
         Box(
-            modifier = Modifier.padding(it),
+            modifier = Modifier.fillMaxSize().padding(it),
             contentAlignment = Alignment.Center
         ) {
             if (state.isLoading) {
