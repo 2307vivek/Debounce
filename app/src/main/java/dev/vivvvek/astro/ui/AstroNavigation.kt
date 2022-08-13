@@ -4,12 +4,15 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import dev.vivvvek.astro.ui.details.DetailsScreen
 import dev.vivvvek.astro.ui.home.AstroViewModel
 import dev.vivvvek.astro.ui.home.HomeScreen
 
@@ -27,18 +30,16 @@ fun AstroNavigation(viewModel: AstroViewModel) {
             enterTransition = {
                 when (initialState.destination.route) {
                     "DetailScreen" ->
-                        slideInHorizontally(
-                            initialOffsetX = { 300 },
+                        scaleIn(
                             animationSpec = tween(300)
-                        ) + fadeIn(animationSpec = tween(300))
+                        )+ fadeIn(animationSpec = tween(300))
                     else -> null
                 }
             },
             exitTransition = {
                 when (targetState.destination.route) {
                     "DetailScreen" ->
-                        slideOutHorizontally(
-                            targetOffsetX = { -300 },
+                        scaleOut(
                             animationSpec = tween(300)
                         ) + fadeOut(animationSpec = tween(300))
                     else -> null
@@ -47,10 +48,9 @@ fun AstroNavigation(viewModel: AstroViewModel) {
             popEnterTransition = {
                 when (initialState.destination.route) {
                     "DetailScreen" ->
-                        slideInHorizontally(
-                            initialOffsetX = { -300 },
+                        scaleIn(
                             animationSpec = tween(300)
-                        ) + fadeIn(animationSpec = tween(300))
+                        )+ fadeIn(animationSpec = tween(300))
                     else -> null
                 }
             }
@@ -65,36 +65,32 @@ fun AstroNavigation(viewModel: AstroViewModel) {
             enterTransition = {
                 when (initialState.destination.route) {
                     "HomeScreen" ->
-                        slideInHorizontally(
-                            initialOffsetX = { 300 },
+                        scaleIn(
                             animationSpec = tween(300)
-                        ) + fadeIn(animationSpec = tween(300))
+                        )+ fadeIn(animationSpec = tween(300))
                     else -> null
                 }
             },
             exitTransition = {
                 when (targetState.destination.route) {
                     "HomeScreen" ->
-                        slideOutHorizontally(
-                            targetOffsetX = { -300 },
+                        scaleOut(
                             animationSpec = tween(300)
-                        ) + fadeOut(animationSpec = tween(300))
+                        )+ fadeOut(animationSpec = tween(300))
                     else -> null
                 }
             },
             popExitTransition = {
                 when (targetState.destination.route) {
                     "HomeScreen" ->
-                        slideOutHorizontally(
-                            targetOffsetX = { 300 },
+                        scaleOut(
                             animationSpec = tween(300)
                         ) + fadeOut(animationSpec = tween(300))
                     else -> null
                 }
             }
         ) {
-
+            DetailsScreen(navController = navController)
         }
     }
-}
 }

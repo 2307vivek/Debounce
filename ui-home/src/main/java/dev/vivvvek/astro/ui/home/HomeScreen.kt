@@ -61,6 +61,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.vivvvek.astro.domain.SortOrder
@@ -68,7 +69,10 @@ import dev.vivvvek.astro.domain.models.AstroImage
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun HomeScreen(viewModel: AstroViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun HomeScreen(
+    viewModel: AstroViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    navController: NavController
+) {
     val state by viewModel.homeScreenState.collectAsState()
 
     var sortOrder by remember { mutableStateOf(SortOrder.LATEST) }
