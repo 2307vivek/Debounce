@@ -39,7 +39,10 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 /**
- * A [LazyColumn] which you can zoom in or out to change the number of columns accordingly.
+ * A [LazyColumn] showing items in a grid which you can zoom in or out
+ * to change the number of columns accordingly.
+ * If there are not much items fill the grid, the items will resize to fill
+ * the full width of the grid
  *
  *  @param initialColumns the number of columns the grid starts with.
  *  @param maximumColumns the maximum number of columns the grid can have. After which
