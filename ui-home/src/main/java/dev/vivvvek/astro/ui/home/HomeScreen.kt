@@ -53,6 +53,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,7 +77,7 @@ fun HomeScreen(
 ) {
     val state by viewModel.homeScreenState.collectAsState()
 
-    var sortOrder by remember { mutableStateOf(SortOrder.LATEST) }
+    var sortOrder by rememberSaveable { mutableStateOf(SortOrder.LATEST) }
 
     LaunchedEffect(sortOrder) {
         viewModel.getAllImages(sortOrder)
@@ -107,7 +108,10 @@ fun HomeScreen(
                         imagesGrouped = state.images,
                         modifier = Modifier.fillMaxHeight(),
                         contentPadding = PaddingValues(horizontal = 16.dp),
-                        onImageClick = {  }
+                        onImageClick = { id ->
+                            viewModel.getIndexOfImage(id)
+                            navController.navigate("DetailScreen")
+                        }
                     )
                 }
             }
