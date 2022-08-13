@@ -1,7 +1,8 @@
 package dev.vivvvek.astro.ui.details
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +14,10 @@ fun DetailsScreen(
     navController: NavController,
     viewModel: AstroViewModel
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()) {
         Text(text = "DetailsScreen")
+        Button(onClick = { navController.popBackStack() }) {
+            Text(text = "Navigate back ${viewModel.selectedImageIndex}")
+        }
     }
 }

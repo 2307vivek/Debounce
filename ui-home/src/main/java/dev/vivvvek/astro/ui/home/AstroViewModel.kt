@@ -37,6 +37,7 @@ class AstroViewModel @Inject constructor(
     val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState
 
     var images = listOf<AstroImage>()
+    var selectedImageIndex = -1
 
     fun getAllImages(sortOrder: SortOrder) {
         viewModelScope.launch {
@@ -64,8 +65,11 @@ class AstroViewModel @Inject constructor(
         }
     }
 
-    fun getIndexOfImage(id: Int) = images.indexOfFirst {
-        it.id == id
+    fun getIndexOfImage(id: Int) {
+        val index = images.indexOfFirst {
+            it.id == id
+        }
+        selectedImageIndex = index
     }
 }
 
