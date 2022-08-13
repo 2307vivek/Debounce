@@ -21,7 +21,6 @@ import dev.vivvvek.astro.domain.Response
 import dev.vivvvek.astro.domain.models.Image
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.IOException
 import java.io.InputStream
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,7 +35,7 @@ class AstroDataSource @Inject constructor(private val jsonProvider: JsonProvider
                 val imageType = object : TypeToken<List<Image>>() {}.type
                 val images: List<Image> = Gson().fromJson(jsonString, imageType)
                 Response.Success(images)
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 Response.Error("Something happened")
             }
         }

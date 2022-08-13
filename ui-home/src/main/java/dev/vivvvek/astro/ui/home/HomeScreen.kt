@@ -28,26 +28,23 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -61,7 +58,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -98,15 +94,18 @@ fun HomeScreen(
             )
         },
     ) {
-        Box(modifier = Modifier.padding(it)) {
+        Box(
+            modifier = Modifier.padding(it),
+            contentAlignment = Alignment.Center
+        ) {
             if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator()
             }
             if (state.error == null && state.images.isNotEmpty()) {
                 AnimatedContent(targetState = sortOrder) {
                     ImageGrid(
                         imagesGrouped = state.images,
-                        modifier = Modifier.fillMaxHeight(),
+                        modifier = Modifier.fillMaxHeight().navigationBarsPadding(),
                         contentPadding = PaddingValues(horizontal = 16.dp),
                         onImageClick = { id ->
                             viewModel.getIndexOfImage(id)
@@ -137,18 +136,11 @@ fun ImageGrid(
     ) { columns ->
         imagesGrouped.forEach { (weekNumber, imagesByWeek) ->
             item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(horizontal = 2.dp, vertical = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(text = "Week $weekNumber", fontWeight = FontWeight.Bold)
-                    }
-                    Text(text = imagesByWeek.size.toString())
-                }
+                GridHeader(
+                    weekNumber = weekNumber,
+                    monthName = imagesByWeek[0].date.monthName,
+                    numberOfImages = imagesByWeek.size
+                )
             }
             items(imagesByWeek.chunked(columns)) { images ->
                 Row(
@@ -207,7 +199,7 @@ fun AstroTopAppBar(
     TopAppBar(
         title = { Text(text = "Astro") },
         elevation = 2.dp,
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.colors.surface,
         actions = {
             IconButton(onClick = { isMenuVisible = !isMenuVisible }) {
                 Icon(imageVector = Icons.Default.MoreVert, contentDescription = "Menu Icon")
