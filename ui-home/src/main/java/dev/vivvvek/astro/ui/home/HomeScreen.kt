@@ -70,7 +70,7 @@ import dev.vivvvek.astro.domain.models.AstroImage
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
-    viewModel: AstroViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    viewModel: AstroViewModel,
     navController: NavController
 ) {
     val state by viewModel.homeScreenState.collectAsState()

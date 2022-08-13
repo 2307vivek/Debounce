@@ -90,7 +90,10 @@ fun AstroNavigation(viewModel: AstroViewModel) {
                 }
             }
         ) {
-            DetailsScreen(navController = navController)
+            DetailsScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 }
