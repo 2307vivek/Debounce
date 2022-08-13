@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.items
@@ -104,7 +105,7 @@ fun HomeScreen(
                 AnimatedContent(targetState = sortOrder) {
                     ImageGrid(
                         imagesGrouped = state.images,
-                        modifier = Modifier.fillMaxHeight(),
+                        modifier = Modifier.fillMaxHeight().navigationBarsPadding(),
                         contentPadding = PaddingValues(horizontal = 16.dp),
                         onImageClick = { id ->
                             viewModel.getIndexOfImage(id)
