@@ -44,8 +44,8 @@ class AstroViewModel @Inject constructor(
     var selectedImageIndex = -1
 
     fun getAllImages(sortOrder: SortOrder) {
+        _homeScreenState.value = _homeScreenState.value.copy(isLoading = true)
         viewModelScope.launch(mainDispatcher) {
-            _homeScreenState.value = _homeScreenState.value.copy(isLoading = true)
             when (val res = repository.getAllImages()) {
                 is Response.Success -> {
                     val sortedImages = if (sortOrder == SortOrder.LATEST)
