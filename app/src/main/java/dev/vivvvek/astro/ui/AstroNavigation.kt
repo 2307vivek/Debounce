@@ -30,27 +30,21 @@ fun AstroNavigation(viewModel: AstroViewModel) {
             enterTransition = {
                 when (initialState.destination.route) {
                     "DetailScreen" ->
-                        scaleIn(
-                            animationSpec = tween(300)
-                        )+ fadeIn(animationSpec = tween(300))
+                        scaleIn()+ fadeIn()
                     else -> null
                 }
             },
             exitTransition = {
                 when (targetState.destination.route) {
                     "DetailScreen" ->
-                        scaleOut(
-                            animationSpec = tween(300)
-                        ) + fadeOut(animationSpec = tween(300))
+                        scaleOut() + fadeOut()
                     else -> null
                 }
             },
             popEnterTransition = {
                 when (initialState.destination.route) {
                     "DetailScreen" ->
-                        scaleIn(
-                            animationSpec = tween(300)
-                        )+ fadeIn(animationSpec = tween(300))
+                        scaleIn()+ fadeIn()
                     else -> null
                 }
             }
@@ -65,27 +59,21 @@ fun AstroNavigation(viewModel: AstroViewModel) {
             enterTransition = {
                 when (initialState.destination.route) {
                     "HomeScreen" ->
-                        scaleIn(
-                            animationSpec = tween(300)
-                        )+ fadeIn(animationSpec = tween(300))
+                        scaleIn()+ fadeIn()
                     else -> null
                 }
             },
             exitTransition = {
                 when (targetState.destination.route) {
                     "HomeScreen" ->
-                        scaleOut(
-                            animationSpec = tween(300)
-                        )+ fadeOut(animationSpec = tween(300))
+                        scaleOut() + fadeOut()
                     else -> null
                 }
             },
             popExitTransition = {
                 when (targetState.destination.route) {
                     "HomeScreen" ->
-                        scaleOut(
-                            animationSpec = tween(300)
-                        ) + fadeOut(animationSpec = tween(300))
+                        scaleOut() + fadeOut()
                     else -> null
                 }
             }
