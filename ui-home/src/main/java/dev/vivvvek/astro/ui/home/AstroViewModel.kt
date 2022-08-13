@@ -31,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AstroViewModel @Inject constructor(
     private val repository: AstroRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState

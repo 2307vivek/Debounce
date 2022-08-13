@@ -24,7 +24,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.vivvvek.astro.ui.AstroNavigation
-import dev.vivvvek.astro.ui.home.HomeScreen
 import dev.vivvvek.astro.ui.theme.AstroTheme
 
 @AndroidEntryPoint
