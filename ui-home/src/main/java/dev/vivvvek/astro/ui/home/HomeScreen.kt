@@ -41,6 +41,7 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -140,18 +141,11 @@ fun ImageGrid(
     ) { columns ->
         imagesGrouped.forEach { (weekNumber, imagesByWeek) ->
             item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(horizontal = 2.dp, vertical = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(text = "Week $weekNumber", fontWeight = FontWeight.Bold)
-                    }
-                    Text(text = imagesByWeek.size.toString())
-                }
+                GridHeader(
+                    weekNumber = weekNumber,
+                    monthName = imagesByWeek[0].date.monthName,
+                    numberOfImages = imagesByWeek.size
+                )
             }
             items(imagesByWeek.chunked(columns)) { images ->
                 Row(
@@ -210,7 +204,7 @@ fun AstroTopAppBar(
     TopAppBar(
         title = { Text(text = "Astro") },
         elevation = 2.dp,
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.colors.surface,
         actions = {
             IconButton(onClick = { isMenuVisible = !isMenuVisible }) {
                 Icon(imageVector = Icons.Default.MoreVert, contentDescription = "Menu Icon")
