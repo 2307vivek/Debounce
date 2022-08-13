@@ -4,6 +4,8 @@
     <bytecodeTargetLevel target="1.7">
       <module name="Astro2.app" target="11" />
       <module name="Astro2.data-android" target="11" />
+      <module name="Astro2.ui-common" target="11" />
+      <module name="Astro2.ui-details" target="11" />
       <module name="Astro2.ui-home" target="11" />
     </bytecodeTargetLevel>
   </component>

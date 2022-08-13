@@ -29,14 +29,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class AstroViewModel @Inject constructor(
     private val repository: AstroRepository
-) : ViewModel() {
+): ViewModel() {
 
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState
 
     var images = listOf<AstroImage>()
+    var selectedImageIndex = -1
 
     fun getAllImages(sortOrder: SortOrder) {
         viewModelScope.launch {
@@ -64,10 +65,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun List<AstroImage>.groupByWeek(): Map<Int, List<AstroImage>> {
-        val imagesGroupedByWeek = this.groupBy {
-            (it.date.day / 7) + 1
+    fun getIndexOfImage(id: Int) {
+        val index = images.indexOfFirst {
+            it.id == id
         }
-        return imagesGroupedByWeek
+        selectedImageIndex = index
     }
+}
+
+private fun List<AstroImage>.groupByWeek(): Map<Int, List<AstroImage>> {
+    val imagesGroupedByWeek = this.groupBy {
+        (it.date.day / 7) + 1
+    }
+    return imagesGroupedByWeek
 }

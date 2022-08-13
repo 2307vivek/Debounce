@@ -20,6 +20,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -52,6 +53,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,6 +63,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.vivvvek.astro.domain.SortOrder
@@ -68,10 +71,13 @@ import dev.vivvvek.astro.domain.models.AstroImage
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun HomeScreen(
+    viewModel: AstroViewModel,
+    navController: NavController
+) {
     val state by viewModel.homeScreenState.collectAsState()
 
-    var sortOrder by remember { mutableStateOf(SortOrder.LATEST) }
+    var sortOrder by rememberSaveable { mutableStateOf(SortOrder.LATEST) }
 
     LaunchedEffect(sortOrder) {
         viewModel.getAllImages(sortOrder)
@@ -102,6 +108,10 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
                         imagesGrouped = state.images,
                         modifier = Modifier.fillMaxHeight(),
                         contentPadding = PaddingValues(horizontal = 16.dp),
+                        onImageClick = { id ->
+                            viewModel.getIndexOfImage(id)
+                            navController.navigate("DetailScreen")
+                        }
                     )
                 }
             }
@@ -115,6 +125,7 @@ fun HomeScreen(viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.v
 @Composable
 fun ImageGrid(
     modifier: Modifier = Modifier,
+    onImageClick: (Int) -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     imagesGrouped: Map<Int, List<AstroImage>>
 ) {
@@ -152,7 +163,8 @@ fun ImageGrid(
                                 .padding(2.dp)
                                 .aspectRatio(1f)
                                 .clip(RoundedCornerShape(4.dp))
-                                .background(Color(250, 250, 250))
+                                .background(Color(250, 250, 250)),
+                            onImageClick = onImageClick
                         )
                     }
                 }
@@ -164,10 +176,13 @@ fun ImageGrid(
 @Composable
 fun AstroGridItem(
     image: AstroImage,
+    onImageClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.clickable {
+            onImageClick(image.id)
+        },
         contentAlignment = Alignment.Center
     ) {
         AsyncImage(

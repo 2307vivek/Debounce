@@ -20,8 +20,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import dev.vivvvek.astro.ui.AstroNavigation
 import dev.vivvvek.astro.ui.home.HomeScreen
 import dev.vivvvek.astro.ui.theme.AstroTheme
 
@@ -37,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     color = Color.Transparent,
                     darkIcons = true
                 )
-                HomeScreen()
+                AstroNavigation(viewModel = viewModel())
             }
         }
     }
