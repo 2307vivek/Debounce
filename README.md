@@ -1,6 +1,9 @@
 # Astro
 An app which loads data from a json file and displays it in a grid.
 
+**You can download the release variant of the app from the release page and try it yourself.**
+
+https://user-images.githubusercontent.com/67380664/184494350-25412592-db73-4f65-8e78-928a7418631c.mp4
 
 ## License
 ```
