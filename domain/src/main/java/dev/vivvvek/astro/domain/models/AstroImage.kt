@@ -17,6 +17,7 @@ package dev.vivvvek.astro.domain.models
 
 data class AstroImage(
     val title: String,
+    val id: Int = title.hashCode(),
     val copyright: String,
     val date: Date,
     val explanation: String,
