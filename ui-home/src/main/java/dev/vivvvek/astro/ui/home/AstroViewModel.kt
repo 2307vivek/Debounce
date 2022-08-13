@@ -18,11 +18,14 @@ package dev.vivvvek.astro.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.vivvvek.astro.data.android.di.MainDispatcher
 import dev.vivvvek.astro.domain.AstroRepository
 import dev.vivvvek.astro.domain.Response
 import dev.vivvvek.astro.domain.SortOrder
 import dev.vivvvek.astro.domain.models.AstroImage
 import dev.vivvvek.astro.domain.models.toAstroImage
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,7 +33,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AstroViewModel @Inject constructor(
-    private val repository: AstroRepository
+    private val repository: AstroRepository,
+    @MainDispatcher private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
@@ -40,8 +44,8 @@ class AstroViewModel @Inject constructor(
     var selectedImageIndex = -1
 
     fun getAllImages(sortOrder: SortOrder) {
-        viewModelScope.launch {
-            _homeScreenState.value = _homeScreenState.value.copy(isLoading = true)
+        _homeScreenState.value = _homeScreenState.value.copy(isLoading = true)
+        viewModelScope.launch(mainDispatcher) {
             when (val res = repository.getAllImages()) {
                 is Response.Success -> {
                     val sortedImages = if (sortOrder == SortOrder.LATEST)
