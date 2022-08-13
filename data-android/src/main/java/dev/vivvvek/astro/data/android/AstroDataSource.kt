@@ -36,7 +36,7 @@ class AstroDataSource @Inject constructor(private val jsonProvider: JsonProvider
                 val imageType = object : TypeToken<List<Image>>() {}.type
                 val images: List<Image> = Gson().fromJson(jsonString, imageType)
                 Response.Success(images)
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 Response.Error("Something happened")
             }
         }
