@@ -21,7 +21,6 @@ import dev.vivvvek.astro.domain.Response
 import dev.vivvvek.astro.domain.models.Image
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.IOException
 import java.io.InputStream
 import javax.inject.Inject
 import javax.inject.Singleton
