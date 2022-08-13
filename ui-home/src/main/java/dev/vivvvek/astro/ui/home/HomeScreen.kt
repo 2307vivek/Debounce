@@ -98,9 +98,12 @@ fun HomeScreen(
             )
         },
     ) {
-        Box(modifier = Modifier.padding(it)) {
+        Box(
+            modifier = Modifier.padding(it),
+            contentAlignment = Alignment.Center
+        ) {
             if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator()
             }
             if (state.error == null && state.images.isNotEmpty()) {
                 AnimatedContent(targetState = sortOrder) {
